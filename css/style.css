@@ -1,0 +1,130 @@
+<style type="text/css">
+
+	header{
+	}
+	
+	.header_text {
+		width: 100%;
+		position: absolute;
+		top: 87.5%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	
+	.banner_container
+	{
+		position: relative;
+		text-align: center;
+		color: white;
+	}
+
+	.tab{
+		overflow:hidden;
+		border: 1px solid #ccc;
+		background-color: #f1f1f1;
+		display: flex;
+		justify-content: center;
+	}
+
+	.tab input{
+		background-color: inherit;
+		border: none;
+		cursor: pointer;
+		padding-top: 14px;
+		padding-left: 32px;
+		transition: 0.3s;
+	}
+	
+	.tab input:hover{
+		#Button not alighting properly 
+	}
+	
+	table
+	{
+		border: 1px solid black;
+		text-align: center;
+		width: inherit;
+	}
+	
+	th, td
+	{
+		
+		border: 1px solid black;
+		text-align: center;
+  		word-wrap: break-word;
+  		width: 1px;
+	}
+	
+	.parent_table
+	{
+		border: none;
+		padding: 14px;
+	}
+	
+	.last_element
+	{
+		column-width: 150%;
+	}
+	
+	.sauces
+	{
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+	}
+	
+	.sauce_element
+	{
+		width : 300px;
+		padding: 5px 16px;
+	}
+	
+	.viewer_table
+	{
+		width: 100%;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+	}
+	
+	.lenghten_name
+	{
+		font-size: xx-large;
+	}
+	 
+	.view_lengthener
+	{
+		font-size: xx-large;
+		width: 50%;
+	}
+	 
+	.view_lengthenering
+	{
+		width: 70%;
+	}
+	
+	.add_sauce_button
+	{
+		padding: 14px 14px;
+	}
+	
+	.viewing_table
+	{
+		width: 1200;
+	}
+	
+	.image_view
+	{
+		width: 30%;
+	}
+	
+	.add_table
+	{
+		width: inherit;
+	}
+	
+	.add_div
+	{
+		width: 600px;
+	}
+</style>
