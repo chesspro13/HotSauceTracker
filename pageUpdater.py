@@ -11,50 +11,143 @@ debug = False
 
 def fileCreator( Name, Company, Cost, Stars, Ingredients, ImgURL, URL ):
     if os.path.exists( 'sauces/' + Name + '.php'):
-        print( name + ' already exists' )
+        print( Name + ' already exists' )
+        return
     else:
         print("<br>Creating file")
         f = open( '/var/www/html/sauces/' + Name + '.php', 'w')
 
 
-        b = '''<html>
+        b = '''<?php 
+
+			include 'fetchReview.php';
+
+			$name = "''' + Name + '''";
+			$company = "''' + Company + '''";
+			$cost = "''' + Cost + '''";
+			$stars = "''' + Stars + '''";
+			$ingredients = "''' + Ingredients + '''";
+			$url = "''' + URL + '''";
+			$imgurl = "''' + ImgURL + '''";
+
+			setCookie('SauceName', $name, time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+			setCookie('Company', $company, time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+			setCookie('Cost', $cost, time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+			setCookie('Stars', $stars, time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+			setCookie('Ingredients', $ingredients, time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+			setCookie('URL', $url, time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+			setCookie('ImgURL', $imgurl, time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+		?>
+<html>
         <head>
 		<?php include '/var/www/html/header.php'; ?>
 	</head>
 
-	<body>
-		<table  border = "1" size = 25>
+	<body><body onresize="updateFont()" onkeypress="handleEnter(event)">
+
+		<link rel="stylesheet" href="css/review.css">
+		<div style="display:flex;">
+			<div>
+				<form action="saveSauce.php"  method="POST">
+					<table  border = "1" size = 25>
 			<td rowspan = '6'>
-				<img src = " ''' + ImgURL + '''" alt= "Not sauce" height="256" width = "170" >		
+				<img src =<?php echo '"' . $imgurl . '"'; ?> alt= "Not sauce" height="256" width = "170" >		
 			</td>
 			<tr>
 				<td>Name:</td>
-				<td> " ''' + Name + '''" </td>
+				<td><?php echo $name; ?></td>
 			</tr>
 			<tr>
 				<td>Company:</td>
-				<td> " ''' + Company + '''" </td>
+				<td><?php echo $company; ?></td>
 			</tr>
 			<tr>
 				<td>Cost:</td>
-				<td> " ''' + Cost + '''" </td>
+				<td><?php echo $cost; ?></td>
 			</tr>
 			<tr>
 				<td>Stars:</td>
-				<td> " ''' + Stars + '''" </td>
+				<td><?php echo $stars; ?></td>
 			</tr>
 			<tr>
 				<td>Ingredients:</td>
-				<td> " ''' + Ingredients + '''" </td>
+				<td><?php echo $ingredients; ?></td>
 			</tr>
 		</table>
-		<a href="''' + URL + '''"><input type=button value='HOME'></a>
-		<script >
-			
-			function output( output )
+				</form>
+			</div>
+			<div>
+				<select id="name_selector" name="Name" onchange="loadReviews()" >
+					<option value="none"></option>
+					<option value="brandon">Brandon</option>
+					<option value="jennifer">Jennifer</option>
+					<option value="violet">Violet</option>
+					</select>
+			</div>
+		<div>
+		<a href=<?php echo '"' . $url . '"'; ?>><input type=button value='Shop for this sauce!'></a>
+
+		<div>
+			<form action="/review.php">
+				<table>
+					<tr>
+						<td>Heat:</td>
+						<td id="heat_output"> 23123 </td>
+					</tr>
+					<tr>
+						<td>Stars:</td>
+						<td id="stars_output"> ***** </td>
+					</tr>
+					<tr>
+						<td>Goes great with:</td>
+						<td id="tags_output">Yo mama</td>
+					</tr>
+					<tr>
+						<td>Personal Review:</td>
+						<td id="review_output">Smells like pickles.</td>
+					</tr>
+				</table>
+				<input type="submit" value="Add a review!"></input>
+			</form>
+		</div>
+
+			<script >
+
+			function loadReviews()
 			{
-				document.getElementById("output").innerHTML = output;
+				let heat = document.getElementById("heat_output");
+				let stars = document.getElementById("stars_output");
+				let tags = document.getElementById("tags_output");
+				let review = document.getElementById("review_output");
+
+				switch( document.getElementById("name_selector").value )
+				{
+					case "brandon":
+						console.log("Brandon!");
+						heat.innerHTML = <?php echo '"' . generateReviews('brandon', $name)["HeatLevel"] . '"'; ?> ;
+						stars.innerHTML = <?php echo '"' . generateReviews('brandon', $name)["Stars"] . '"'; ?> ;
+						tags.innerHTML = <?php echo '"' . generateReviews('brandon', $name)["GoesWellWith"] . '"'; ?> ;
+						review.innerHTML = <?php echo '"' . generateReviews('brandon', $name)["Review"] . '"'; ?> ;
+						break;
+					case "jennifer":
+						console.log("Jennifer!");
+						heat.innerHTML = <?php echo '"' . generateReviews('jennifer', $name)["HeatLevel"] . '"'; ?> ;
+						stars.innerHTML = <?php echo '"' . generateReviews('jennifer', $name)["Stars"] . '"'; ?> ;
+						tags.innerHTML = <?php echo '"' . generateReviews('jennifer', $name)["GoesWellWith"] . '"'; ?> ;
+						review.innerHTML = <?php echo '"' . generateReviews('jennifer', $name)["Review"] . '"'; ?> ;
+						break;
+					case "violet":
+						console.log("Violet!");
+						heat.innerHTML = <?php echo '"' . generateReviews('violet', $name)["HeatLevel"] . '"'; ?> ;
+						stars.innerHTML = <?php echo '"' . generateReviews('violet', $name)["Stars"] . '"'; ?> ;
+						tags.innerHTML = <?php echo '"' . generateReviews('violet', $name)["GoesWellWith"] . '"'; ?> ;
+						review.innerHTML = <?php echo '"' . generateReviews('violet', $name)["Review"] . '"'; ?> ;
+						break;
+					default:
+						console.log("Who the fuck are you?");
+				}
 			}
+			
 			function updateFont()
 			{
 				let text = document.getElementById("site_name");
@@ -75,9 +168,7 @@ def fileCreator( Name, Company, Cost, Stars, Ingredients, ImgURL, URL ):
 					text.style.fontSize = "26px";
 				else 
 					text.style.fontSize = "22px";
-				output( window.innerWidth );
 			}
-			output( window.innerWidth );
 			updateFont();
 		</script>
 	</body>
@@ -115,8 +206,7 @@ def getInfo():
  
 try:
 	login = getInfo()
-	print( login )
-	connection = mysql.connector.connect( host='localhost', user=login['username'], password=login['password'], db=login['db'] )
+	connection = mysql.connector.connect( host='127.0.0.1', user=login['username'], password=login['password'], db=login['db'] )
 	cur = connection.cursor()
 	cur.execute("SELECT * FROM sauces")
 

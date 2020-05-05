@@ -2,7 +2,7 @@
 	$headerOutput = '
 		<link rel="stylesheet" type="text/css" href="/css/style.css">
 		<div class="banner_container">
-			<img src="/images/banner.jpg" alt="Not sauce" style="width:100%">
+			<img class="banner_image" src="/images/banner.jpg" alt="Not sauce" style="width:100%">
 			<div class="header_text" id="site_name">
 				"The Mauldin Hot.net"
 			</div>

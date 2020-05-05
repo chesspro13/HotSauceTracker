@@ -37,39 +37,54 @@ imgURL = "http:" + imgURL[: imgURL.find(".jpg") + 4]
 #print( starCount )
 
 def getIngredients(soup):
-	scripts = soup.find_all("script")
-	cnt = 0
-	for i in scripts:
-		if "Ingredients" in i.text:
+    scripts = soup.find_all("script")
+    cnt = 0
+    for i in scripts:
+        if "Ingredients" in i.text:
 			#print( cnt )
-			cnt = cnt + 1
-		else:
-			cnt = cnt + 1
+            cnt = cnt + 1
+        else:
+            cnt = cnt + 1
 			
-	ingPos = scripts[38].text.find("Ingredients")
-	newPos = scripts[38].text.find("strong", ingPos + 1)
-	if abs(newPos - ingPos) <= 25:
-		ingPos = newPos
+    ingPos = scripts[38].text.find("Ingredients")
+    newPos = scripts[38].text.find("strong", ingPos + 1)
+    if abs(newPos - ingPos) <= 25:
+        ingPos = newPos
 			
-	output = scripts[38].text[ingPos+6: scripts[38].text.find("/span", ingPos )]
+    output = scripts[38].text[ingPos+6: scripts[38].text.find("/span", ingPos )]
 	
-	output2 = output.replace("\\", ' ').replace( "u003c", " ").replace( "u003e", " ").replace('/b', ' ').replace( 'span style= "font-weight: 400; "', " "  ).replace("ients:     ", ' ').replace( '/p   n  p', " ").replace( 'b    i  :    /i', ' ' ).replace('ients', ' ' )
+    output2 = output.replace("\\", ' ').replace( "u003c", " ").replace( "u003e", " ").replace('/b', ' ').replace( 'span style= "font-weight: 400; "', " "  ).replace("ients:     ", ' ').replace( '/p   n  p', " ").replace( 'b    i  :    /i', ' ' ).replace('ients', ' ' ).replace('  span  ', '' ).replace("Size", '').replace("/strong", '').strip()
 	
-	optA = output2.find("span")
-	optB = output2.find("strong")
-	if output2.find('"') < 10:
-		output3 = output2[ output2.find('"') +1: min( optA, optB) ]
-	else:
-		output3 = output2[ : min( optA, optB) ]
-	return output3.strip()
+    optA = output2.find("span")
+    optB = output2.find("strong")
+    optC = output2.find("div")
+    optD = output2.find(":")
+
+
+#	if output2.find('"') < 10:
+#		output3 = output2[ output2.find('"') +1: min( optA, optB) ]
+#	else:
+#		output3 = output2[ : min( optA, optB) ]
+#	return output3.strip()
+
+    if output2.find('"') < 10:
+        output3 = output2[ output2.find('"') +1: min( optA, optB, optC, optD ) ].replace("strong", '')
+        if output3.find(':') > 5:
+            output3 = output3[:output3.find(':')]
+    else:
+        output3 = output2[ : min( optA, optB, optC, optD ) ].replace("strong", '')
+        if output3.find(':') > 5:
+            output3 = output3[:output3.find(':')]
+    
+    return output3.strip()
 	
 	
-def min( a,b ):
-	#print("\nA: " + str(a) + "\nB: " + str(b) + "\n")
-	if a < b:
-		return a
-	else:
-		return b
+#def min( a,b ):
+#	#print("\nA: " + str(a) + "\nB: " + str(b) + "\n")
+ #   if a < b:
+  #      return a
+   # else:
+    #    return b
 
 data = {}
 data["URL"] = str(url)

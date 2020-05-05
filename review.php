@@ -25,7 +25,7 @@
 			{
 				
 				#$sql = 'SELECT * FROM Reviews WHERE Sauce="' . $_COOKIE['Name'] . '" AND Reviewer="' . $named . '";';
-				$sql = 'SELECT * FROM Reviews WHERE Sauce="Stargazer" AND Reviewer="' . $named . '";';
+				$sql = 'SELECT * FROM Reviews WHERE Sauce="' . $_COOKIE['SauceName'] . '" AND Reviewer="' . $named . '";';
 
 				#echo $sql . '<br>';
 
@@ -53,6 +53,7 @@
 			echo '<br>Jennifer: ' . ( $jenniferHolder['HeatLevel'] ) . '<br>';
 			echo '<br>Violet: ' . ( $violetHolder ) . '<br>';
 			echo '<br>Cokkie: ' . $_COOKIE['ImgURL'];
+			echo '<br>Name: ' . $_COOKIE['Name'];
 		?>
 
 	</head>
@@ -70,7 +71,7 @@
 						</td>
 						<tr>
 							<td id="output_name">Name:</td>
-							<td style="width: 222px"><?php echo str_replace("_", " ", $_COOKIE['Name']); ?></td>
+							<td style="width: 222px"><?php echo str_replace("_", " ", $_COOKIE['SauceName']); ?></td>
 						</tr>
 						<tr>
 							<td>Company:</td>

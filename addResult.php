@@ -28,20 +28,19 @@
 	<body>
 		<?php
 			$url = $_POST['url'];
-			echo $url;
+			echo 'Scraping: ' . $url;
 				$command = escapeshellcmd('python3 scraper.py ' . $url);
 				$mystring = shell_exec( $command );
-				echo '<br>' . $mysting;
 
 				$jsonobj = json_decode( $mystring, JSON_PRETTY_PRINT);
 
-				setcookie('Name', $jsonobj['Name']);
-				setcookie('Company', $jsonobj['Company']);
-				setcookie('Stars', $jsonobj['Stars']);
-				setcookie('Ingredients', $jsonobj['Ingredients']);
-				setcookie('URL', $jsonobj['URL']);
-				setcookie('ImgURL', $jsonobj['ImgURL']);
-				setcookie('Cost', $jsonobj['Cost']);
+				setcookie('Name', $jsonobj['Name'], time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+				setcookie('Company', $jsonobj['Company'], time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+				setcookie('Stars', $jsonobj['Stars'], time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+				setcookie('Ingredients', $jsonobj['Ingredients'], time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+				setcookie('URL', $jsonobj['URL'], time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+				setcookie('ImgURL', $jsonobj['ImgURL'], time() + ( 60 * 60 * 24 * 365 * 1000), '/');
+				setcookie('Cost', $jsonobj['Cost'], time() + ( 60 * 60 * 24 * 365 * 1000), '/');
 				
 			?> 
 
@@ -49,27 +48,27 @@
 			<form action="saveSauce.php"  method="POST">
 				<table  border = "1" class="viewing_table" >
 					<td rowspan = '6' class="image_view">
-						<img src = <?php echo $_COOKIE['ImgURL'];?> alt= "Not sauce" height="512" width = "340" >		
+						<img src = <?php echo $jsonobj['ImgURL'];?> alt= "Not sauce" height="512" width = "340" >		
 					</td>
 					<tr>
 						<td class="lenghten_name">Name:</td>
-						<td class="view_lengthener" ><?php echo str_replace("_", " ", $_COOKIE['Name']); ?></td>
+						<td class="view_lengthener" ><?php echo str_replace("_", " ", $jsonobj['Name']); ?></td>
 					</tr>
 					<tr>
 						<td class="lenghten_name">Company:</td>
-						<td class="view_lengthener"><?php echo $_COOKIE['Company']; ?></td>
+						<td class="view_lengthener"><?php echo $jsonobj['Company']; ?></td>
 					</tr>
 					<tr>
 						<td class="lenghten_name">Cost:</td>
-						<td class="view_lengthener"><?php echo $_COOKIE['Cost']; ?></td>
+						<td class="view_lengthener"><?php echo $jsonobj['Cost']; ?></td>
 					</tr>
 					<tr>
 						<td class="lenghten_name">Stars:</td>
-						<td class="view_lengthener"><?php echo $_COOKIE['Stars']; ?></td>
+						<td class="view_lengthener"><?php echo $jsonobj['Stars']; ?></td>
 					</tr>
 					<tr>
 						<td class="lenghten_name">Ingredients:</td>
-						<td class="view_lengthener_ing"><?php echo $_COOKIE['Ingredients']; ?></td>
+						<td class="view_lengthener_ing"><?php echo $jsonobj['Ingredients']; ?></td>
 					</tr>
 				</table>
 				<input class="add_sauce_button" name='butt' style="float:right" type = "submit" value ="Add to sauce-ionary!">
